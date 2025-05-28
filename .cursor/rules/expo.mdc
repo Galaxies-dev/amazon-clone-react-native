@@ -1,0 +1,60 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+// React Native Expo best practices
+
+const reactNativeExpoBestPractices = [
+  "Use functional components with hooks",
+  "Utilize Expo SDK features and APIs",
+  "Implement proper navigation using Expo Router and file-based routing",
+  "Use Expo's asset system for images and fonts",
+  "Implement proper error handling and crash reporting",
+  "Use the Expo <Link href=""> component for routing to pages"
+  "API routes are named filename+api.ts",
+  "Use Expo Router's APIs for navigation, such as `useRouter()`.",
+  "Expo Router uses SafeAreaView internally, we don't need it on pages"
+];
+
+// Folder structure
+
+const folderStructure = `
+  app/
+    api/
+    (tabs)/
+    _layout.tsx
+  components/
+  assets/
+  hooks/
+  constants/
+  providers/
+  utils/
+`;
+
+// Additional instructions
+
+const additionalInstructions = `
+1. Use TypeScript for type safety
+2. Implement proper styling using StyleSheet
+3. Utilize Expo's vector icons
+4. Use Expo's secure store for sensitive data
+5. Follow React Native best practices for performance
+`;
+
+## Expo SDK Usage
+
+- Prefer Expo's built-in components and APIs over third-party libraries whenever possible.
+- Use Expo's asset system for managing images and fonts.
+- Use `expo-permissions` to handle device permissions gracefully.
+
+
+- **Code Structure:**
+  - Use functional components with hooks.
+  - Keep components modular and focused on a single responsibility.
+  - Use Typescript for type safety and better code maintainability.
+
+- **Naming Conventions:**
+  - Variables and functions: camelCase (e.g., `isFetchingData`, `handleUserInput`).
+  - Components: PascalCase (e.g., `UserProfile`, `ChatScreen`).
+  - Directories: lowercase hyphenated (e.g., `user-profile`, `chat-screen`).
