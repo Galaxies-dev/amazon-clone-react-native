@@ -5,7 +5,7 @@ import { ClerkLoaded, ClerkProvider, useUser } from '@clerk/clerk-expo';
 import { tokenCache } from '@clerk/clerk-expo/token-cache';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { LogBox, Platform, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSyncQueriesExternal } from 'react-query-external-sync';
@@ -24,6 +24,7 @@ LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys.']);
 
 const InitialLayout = () => {
   const user = useUser();
+  const router = useRouter();
 
   // useEffect(() => {
   //   if (user && user.user) {
@@ -38,8 +39,17 @@ const InitialLayout = () => {
   // }
 
   return (
-    <StyledStack contentClassName="bg-gray-100 dark:bg-background">
+    <StyledStack
+      contentClassName="bg-gray-100 dark:bg-background"
+      headerClassName="bg-dark text-white">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="signIn"
+        options={{
+          presentation: 'fullScreenModal',
+          title: 'Amazon',
+        }}
+      />
     </StyledStack>
   );
 };
