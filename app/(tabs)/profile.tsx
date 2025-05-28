@@ -1,10 +1,26 @@
 import amazonLogo from '@/assets/images/amazon-logo-white.png';
-import { SignedOut } from '@clerk/clerk-expo';
+import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
-import { Link, Stack } from 'expo-router';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Link, Stack, useRouter } from 'expo-router';
+import { Button, Image, Text, TouchableOpacity, View } from 'react-native';
 
 const Page = () => {
+  const { user } = useUser();
+  const { signOut } = useAuth();
+  const router = useRouter();
+
+  const createClerkPasskey = async () => {
+    if (!user) return;
+
+    try {
+      await user?.createPasskey();
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error('Error:', JSON.stringify(err, null, 2));
+    }
+  };
+
   return (
     <View className="flex-1">
       <Stack.Screen
@@ -34,6 +50,16 @@ const Page = () => {
           </Link>
         </View>
       </SignedOut>
+
+      <SignedIn>
+        <View className="pt-10 px-8 items-center">
+          <View className="pt-10 px-8 items-center">
+            <Text className="text-3xl text-center">You are signed in</Text>
+            <Button title="Create Passkey" onPress={createClerkPasskey} />
+            <Button title="Sign Out" onPress={() => signOut()} />
+          </View>
+        </View>
+      </SignedIn>
     </View>
   );
 };

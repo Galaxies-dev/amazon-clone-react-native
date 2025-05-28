@@ -10,7 +10,11 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.supersimon.amazon-mobile"
+      "bundleIdentifier": "com.galaxies.amazon-mobile",
+      "associatedDomains": [
+        "applinks:sought-arachnid-8.clerk.accounts.dev",
+        "webcredentials:sought-arachnid-8.clerk.accounts.dev"
+      ]
     },
     "android": {
       "adaptiveIcon": {
@@ -33,6 +37,14 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "16.0"
+          }
         }
       ]
     ],

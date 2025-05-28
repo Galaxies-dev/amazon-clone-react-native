@@ -1,11 +1,12 @@
+import { isClerkAPIResponseError, useSignIn, useSignUp } from '@clerk/clerk-expo';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   Text,
   TextInput,
   TouchableOpacity,
@@ -14,7 +15,7 @@ import {
 import { z } from 'zod';
 
 const signInSchema = z.object({
-  identifier: z.string().min(3, 'Please enter a valid mobile number or email'),
+  email: z.string().min(3, 'Please enter a valid mobile number or email'),
   password: z.string().min(1, 'Please enter your password'),
 });
 type SignInForm = z.infer<typeof signInSchema>;
@@ -27,17 +28,91 @@ const Page = () => {
     formState: { errors },
   } = useForm<SignInForm>({
     resolver: zodResolver(signInSchema),
-    defaultValues: { identifier: '', password: '' },
+    defaultValues: { email: 'simon@galaxies.dev', password: '' },
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [step, setStep] = useState<'initial' | 'otp'>('initial');
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const { signUp, setActive: setActiveSignUp, isLoaded: isLoadedSignUp } = useSignUp();
 
-  const onSubmit = (data: SignInForm) => {
-    // Handle sign in logic here
+  const onSubmit = async (data: SignInForm) => {
+    if (!isLoaded) return;
+
+    // Start the sign-in process using the email and password provided
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: data.email,
+        password: data.password,
+      });
+
+      // If sign-in process is complete, set the created session as active
+      // and redirect the user
+      if (signInAttempt.status === 'complete') {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.dismissTo('/(tabs)');
+      } else {
+        // If the status isn't complete, check why. User might need to
+        // complete further steps.
+        console.error(JSON.stringify(signInAttempt, null, 2));
+      }
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2));
+      if (isClerkAPIResponseError(err)) {
+        const errors = err.errors;
+        console.log(errors);
+        if (errors[0].code === 'form_identifier_not_found') {
+          createAccount(data);
+        } else {
+          Alert.alert('Error', 'An error occurred while signing in');
+        }
+      }
+    }
   };
 
-  const onPasskey = () => {
-    // Handle passkey logic here
+  const createAccount = async (data: SignInForm) => {
+    console.log('createAccount');
+
+    if (!isLoadedSignUp) return;
+    // Start sign-up process using email and password provided
+    try {
+      await signUp.create({
+        emailAddress: data.email,
+        password: data.password,
+      });
+
+      // Send user an email with verification code
+      // await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+      router.dismissTo('/(tabs)');
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
+  const signInWithPasskey = async () => {
+    // 'discoverable' lets the user choose a passkey
+    // without auto-filling any of the options
+    try {
+      const signInAttempt = await signIn?.authenticateWithPasskey({
+        flow: 'discoverable',
+      });
+
+      if (signInAttempt?.status === 'complete') {
+        if (setActive !== undefined) {
+          await setActive({ session: signInAttempt.createdSessionId });
+          router.dismissTo('/(tabs)');
+        }
+      } else {
+        // If the status is not complete, check why. User may need to
+        // complete further steps.
+        console.error(JSON.stringify(signInAttempt, null, 2));
+      }
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error('Error:', JSON.stringify(err, null, 2));
+    }
   };
 
   return (
@@ -58,10 +133,10 @@ const Page = () => {
         <Text className="text-base font-medium mb-2">Enter mobile number or email</Text>
         <Controller
           control={control}
-          name="identifier"
+          name="email"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              className="border border-gray-300 rounded-md px-3 py-2 mb-2 text-base bg-white"
+              className="border border-gray-300 rounded-md px-3 py-2 mb-2 bg-white"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -71,15 +146,13 @@ const Page = () => {
             />
           )}
         />
-        {errors.identifier && (
-          <Text className="text-red-500 mb-2">{errors.identifier.message}</Text>
-        )}
+        {errors.email && <Text className="text-red-500 mb-2">{errors.email.message}</Text>}
         <Controller
           control={control}
           name="password"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              className="border border-gray-300 rounded-md px-3 py-2 mb-2 text-base bg-white"
+              className="border border-gray-300 rounded-md px-3 py-2 mb-2 bg-white"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -94,7 +167,7 @@ const Page = () => {
           )}
         />
         {errors.password && <Text className="text-red-500 mb-2">{errors.password.message}</Text>}
-        <Pressable
+        <TouchableOpacity
           className="flex-row items-center mb-4"
           onPress={() => setShowPassword((prev) => !prev)}
           accessibilityRole="checkbox"
@@ -107,22 +180,22 @@ const Page = () => {
             {showPassword && <View className="w-3 h-3 bg-green-600 rounded" />}
           </View>
           <Text className="text-base">Show password</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           className="bg-yellow-400 rounded-full py-3 items-center mb-4"
           onPress={handleSubmit(onSubmit)}>
           <Text className="text-lg font-medium text-black">Sign in</Text>
-        </Pressable>
+        </TouchableOpacity>
         <View className="flex-row items-center mb-4">
           <View className="flex-1 h-px bg-gray-300" />
           <Text className="mx-2 text-gray-500">Or</Text>
           <View className="flex-1 h-px bg-gray-300" />
         </View>
-        <Pressable
+        <TouchableOpacity
           className="border border-gray-400 rounded-full py-3 items-center mb-6 bg-white"
-          onPress={onPasskey}>
+          onPress={signInWithPasskey}>
           <Text className="text-lg font-medium text-black">Sign in with a passkey</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );

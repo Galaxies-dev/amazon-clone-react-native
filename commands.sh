@@ -4,6 +4,9 @@ bun install nativewind tailwindcss@^3.4.17 react-native-reanimated@3.16.2 react-
 bunx tailwindcss init
 
 bun install @clerk/clerk-expo expo-secure-store
+bun add @clerk/expo-passkeys
+bunx expo install expo-build-properties
+
 bun add @tanstack/react-query
 bun add -D @tanstack/eslint-plugin-query
 bun install zustand

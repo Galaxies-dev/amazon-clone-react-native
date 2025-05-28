@@ -1,3 +1,5 @@
+// import { useAuth } from "@clerk/clerk-expo";
+
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export interface Product {
@@ -14,6 +16,31 @@ export interface Rating {
   rate: number;
   count: number;
 }
+
+// const createJWT = async () => {
+//   const { getToken } = useAuth();
+
+//   const token = await getToken();
+//   console.log('🚀 ~ createJWT ~ token:', token);
+// };
+
+// const fetchOrders = async () => {
+//   const { getToken } = useAuth();
+
+//   const token = await getToken();
+//   console.log('fetch...');
+
+//   // console.log('🚀 ~ fetchOrders ~ token:', token);
+//   const response = await fetch('http://localhost:3000/orders', {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+//   console.log('response...');
+
+//   const data = await response.json();
+//   console.log('🚀 ~ fetchOrders ~ data:', data);
+// };
 
 export const getProducts = async (): Promise<Product[]> => {
   const response = await fetch(`${API_URL}/products`);

@@ -2,6 +2,7 @@ import { StyledStack } from '@/components/navigation/stack';
 import '@/global.css';
 import { storage } from '@/utils/storage';
 import { ClerkLoaded, ClerkProvider, useUser } from '@clerk/clerk-expo';
+import { passkeys } from '@clerk/clerk-expo/passkeys';
 import { tokenCache } from '@clerk/clerk-expo/token-cache';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -87,7 +88,10 @@ const RootLayout = () => {
   });
 
   return (
-    <ClerkProvider publishableKey={publishableKey!} tokenCache={tokenCache}>
+    <ClerkProvider
+      publishableKey={publishableKey!}
+      tokenCache={tokenCache}
+      __experimental_passkeys={passkeys}>
       <ClerkLoaded>
         <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView style={{ flex: 1 }}>
