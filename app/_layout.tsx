@@ -1,3 +1,5 @@
+import { StyledStack } from '@/components/navigation/stack';
+import '@/global.css';
 import { storage } from '@/utils/storage';
 import { ClerkLoaded, ClerkProvider, useUser } from '@clerk/clerk-expo';
 import { tokenCache } from '@clerk/clerk-expo/token-cache';
@@ -7,7 +9,6 @@ import { Stack } from 'expo-router';
 import { LogBox, Platform, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSyncQueriesExternal } from 'react-query-external-sync';
-import './global.css';
 
 // Create your query client
 const queryClient = new QueryClient();
@@ -37,9 +38,9 @@ const InitialLayout = () => {
   // }
 
   return (
-    <Stack>
+    <StyledStack contentClassName="bg-gray-100 dark:bg-background">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    </StyledStack>
   );
 };
 
