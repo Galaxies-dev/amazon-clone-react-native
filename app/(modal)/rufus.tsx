@@ -1,5 +1,7 @@
+import { CALL_STATUS, useVapi } from '@/hooks/useVapi';
+import { MessageTypeEnum } from '@/utils/conversation.types';
 import { Ionicons } from '@expo/vector-icons';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const SUGGESTED_PHRASES = [
   'What do I need a shaker for?',
@@ -7,46 +9,50 @@ const SUGGESTED_PHRASES = [
   'What are the best sustainable shoes?',
 ];
 
-import Vapi from '@vapi-ai/react-native';
-
-const key = process.env.EXPO_PUBLIC_VAPI_KEY as string;
-const vapi = new Vapi(key);
-
 const Page = () => {
-  const onPhrasePress = (phrase: string) => {
-    console.log(phrase);
+  const {
+    start,
+    stop,
+    setMuted,
+    isMuted,
+    callStatus,
+    activeTranscript,
+    messages,
+    send,
+    toggleCall,
+  } = useVapi();
+  const onPhrasePress = async (phrase: string) => {
+    if (callStatus !== CALL_STATUS.ACTIVE) {
+      await toggleCall();
+    }
+    send(phrase);
   };
 
-  const onMicPress = () => {
-    console.log('mic pressed');
-  };
-
-  const startCall = async () => {
-    console.log('start call...');
-    vapi.start({
-      model: {
-        provider: 'openai',
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are an assistant.',
-          },
-        ],
-      },
-      voice: {
-        provider: '11labs',
-        voiceId: 'burt',
-      },
-    });
-  };
   return (
-    <View className="flex-1 bg-white pb-safe">
+    <ScrollView className="flex-1 bg-white pb-safe">
       <View className="flex-1 items-center justify-center p-4">
         <Text className="text-lg font-semibold mb-6 text-center">
           What do you need help with today?
         </Text>
       </View>
+
+      <View className="flex-1 px-4">
+        {messages
+          .filter((m) => m.type === MessageTypeEnum.TRANSCRIPT)
+          .map((message, index) => (
+            <View
+              key={index}
+              className={`mb-4 ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
+              <View
+                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  message.role === 'user' ? 'bg-orange-300' : 'bg-gray-200'
+                }`}>
+                <Text className={`text-sm text-gray-800`}>{message.transcript}</Text>
+              </View>
+            </View>
+          ))}
+      </View>
+
       {/* Suggested phrases */}
       <View className="px-4 pb-2">
         <View className="flex-row flex-wrap gap-2 justify-center mb-2">
@@ -70,12 +76,17 @@ const Page = () => {
             placeholderTextColor="#888"
             style={{ minHeight: 40 }}
           />
-          <TouchableOpacity className="ml-2" onPress={onMicPress}>
-            <Ionicons name="mic-outline" size={24} color="#2563eb" />
+
+          <TouchableOpacity className="ml-2" onPress={toggleCall}>
+            <Ionicons
+              name={callStatus === CALL_STATUS.ACTIVE ? 'stop-circle-outline' : 'mic-outline'}
+              size={24}
+              color="#2563eb"
+            />
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

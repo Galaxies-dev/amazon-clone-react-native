@@ -7,7 +7,8 @@ import {
 import Vapi from '@vapi-ai/react-native';
 import { useEffect, useState } from 'react';
 
-const vapi = new Vapi(process.env.api_key || '');
+const key = process.env.EXPO_PUBLIC_VAPI_KEY as string;
+const vapi = new Vapi(key);
 
 export enum CALL_STATUS {
   INACTIVE = 'inactive',
@@ -34,7 +35,7 @@ export function useVapi() {
     };
 
     const onMessageUpdate = (message: Message) => {
-      console.log('message', message);
+      console.log('onMessageUpdate', message);
       if (
         message.type === MessageTypeEnum.TRANSCRIPT &&
         message.transcriptType === TranscriptMessageTypeEnum.PARTIAL
@@ -71,7 +72,7 @@ export function useVapi() {
     // setCallStatus(CALL_STATUS.LOADING);
     // const response = vapi.start(characterAssistant);
     const response = vapi.start({
-      endCallFunctionEnabled: true,
+      // endCallFunctionEnabled: true,
       model: {
         provider: 'openai',
         model: 'gpt-3.5-turbo',
@@ -87,7 +88,7 @@ export function useVapi() {
 
     response
       .then((_res) => {
-        // console.log('call', res);
+        console.log('call', _res);
       })
       .catch((e) => {
         console.error('got an error while starting the call', e);
@@ -115,7 +116,13 @@ export function useVapi() {
   const isMuted = vapi.isMuted;
 
   const send = (msg: any) => {
-    return vapi.send(msg);
+    return vapi.send({
+      type: 'add-message',
+      message: {
+        role: 'user',
+        content: msg,
+      },
+    });
   };
 
   return {

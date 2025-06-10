@@ -80,6 +80,9 @@ const InitialLayout = () => {
           sheetAllowedDetents: [0.45, 0.95],
           sheetInitialDetentIndex: 0,
           sheetGrabberVisible: true,
+          contentStyle: {
+            backgroundColor: '#fff',
+          },
           // sheetLargestUndimmedDetentIndex: 'last',
         }}
       />
