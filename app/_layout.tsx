@@ -4,10 +4,12 @@ import { storage } from '@/utils/storage';
 import { ClerkLoaded, ClerkProvider, useUser } from '@clerk/clerk-expo';
 import { passkeys } from '@clerk/clerk-expo/passkeys';
 import { tokenCache } from '@clerk/clerk-expo/token-cache';
+import { Ionicons } from '@expo/vector-icons';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
-import { LogBox, Platform, useColorScheme } from 'react-native';
+import { cssInterop } from 'nativewind';
+import { LogBox, Platform, TouchableOpacity, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSyncQueriesExternal } from 'react-query-external-sync';
 
@@ -21,7 +23,17 @@ if (!publishableKey) {
     'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
   );
 }
-LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys.']);
+LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys']);
+LogBox.ignoreLogs(['[ios] Socket connection error: websocket error']);
+
+cssInterop(Ionicons, {
+  className: {
+    target: false,
+    nativeStyleToProp: {
+      color: true,
+    },
+  },
+});
 
 const InitialLayout = () => {
   const user = useUser();
@@ -49,6 +61,26 @@ const InitialLayout = () => {
         options={{
           presentation: 'fullScreenModal',
           title: 'Amazon',
+        }}
+      />
+      <Stack.Screen
+        name="(modal)/rufus"
+        options={{
+          title: 'Rufus',
+          headerTintColor: '#000',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.dismiss()}>
+              <Ionicons name="close" size={24} className="text-gray-400" />
+            </TouchableOpacity>
+          ),
+          presentation: 'formSheet',
+          sheetAllowedDetents: [0.45, 0.95],
+          sheetInitialDetentIndex: 0,
+          sheetGrabberVisible: true,
+          // sheetLargestUndimmedDetentIndex: 'last',
         }}
       />
     </StyledStack>

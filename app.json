@@ -7,21 +7,43 @@
     "icon": "./assets/images/icon.png",
     "scheme": "amazonmobile",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.galaxies.amazon-mobile",
       "associatedDomains": [
         "applinks:sought-arachnid-8.clerk.accounts.dev",
         "webcredentials:sought-arachnid-8.clerk.accounts.dev"
-      ]
+      ],
+      "infoPlist": {
+        "UIBackgroundModes": ["voip"],
+        "NSCameraUsageDescription": "This app uses the camera to let user put a photo in his profile page.",
+        "NSMicrophoneUsageDescription": "This app uses the microphone to let user make a call."
+      },
+      "bitcode": false
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.CAMERA",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.WAKE_LOCK",
+        "android.permission.BLUETOOTH",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_CAMERA",
+        "android.permission.FOREGROUND_SERVICE_MICROPHONE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION",
+        "android.permission.POST_NOTIFICATIONS"
+      ],
+      "package": "com.galaxies.amazon-mobile"
     },
     "web": {
       "bundler": "metro",
@@ -44,9 +66,14 @@
         {
           "ios": {
             "deploymentTarget": "16.0"
+          },
+          "android": {
+            "minSdkVersion": 24
           }
         }
-      ]
+      ],
+      "@config-plugins/react-native-webrtc",
+      "@daily-co/config-plugin-rn-daily-js"
     ],
     "experiments": {
       "typedRoutes": true

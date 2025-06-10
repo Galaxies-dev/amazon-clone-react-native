@@ -1,16 +1,17 @@
 import CustomTabBar from '@/components/navigation/CustomTabBar';
 import { StyledTabs } from '@/components/navigation/tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 
 const Layout = () => {
+  const router = useRouter();
   return (
-    <StyledTabs
-      headerClassName="bg-dark text-white"
-      tabBar={(props) => <CustomTabBar {...props} />}>
+    <StyledTabs headerClassName="bg-dark" tabBar={(props) => <CustomTabBar {...props} />}>
       <Tabs.Screen
-        name="index"
+        name="(index)"
         options={{
+          headerShown: false,
+          title: '',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" color={color} size={size} />
           ),
@@ -40,7 +41,15 @@ const Layout = () => {
           ),
         }}
       />
-      <Tabs.Screen name="rufus" />
+      <Tabs.Screen
+        name="rufus"
+        listeners={() => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            router.push('/(modal)/rufus');
+          },
+        })}
+      />
     </StyledTabs>
   );
 };
