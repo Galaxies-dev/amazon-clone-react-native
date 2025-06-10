@@ -15,6 +15,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Animated, {
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 const dummyHeros = [
   {
@@ -37,6 +42,23 @@ export default function Index() {
   } = useQuery({
     queryKey: ['articles'],
     queryFn: getArticles,
+  });
+
+  const scrollOffset = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      if (event.contentOffset.y > 50) {
+        scrollOffset.value = 50 - event.contentOffset.y;
+      } else {
+        scrollOffset.value = 0;
+      }
+    },
+  });
+
+  const scrollStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: scrollOffset.value }],
+    };
   });
 
   if (isLoading) {
@@ -63,34 +85,41 @@ export default function Index() {
       <Stack.Screen
         options={{
           header: () => <SearchBar />,
+          // headerShown: true,
+          // headerTransparent: true,
         }}
       />
-      <FlatList
+
+      <Animated.ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerClassName="flex-1 flex-row items-center px-4 py-4 gap-6"
+        className="absolute top-[125px] left-0 w-full bg-dark h-14"
+        style={[scrollStyle]}>
+        <View className="flex-row items-center">
+          <Ionicons name="location-outline" size={20} className="text-white" />
+          <Text className="text-white text-lg font-bold">48163</Text>
+        </View>
+        {['Alexa Lists', 'Prime', 'Video', 'Musik'].map((item) => (
+          <TouchableOpacity key={item}>
+            <Text className="text-white text-md font-semibold">{item}</Text>
+          </TouchableOpacity>
+        ))}
+      </Animated.ScrollView>
+
+      <Animated.FlatList
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
         data={[1]}
+        style={{ zIndex: -1 }}
         ListHeaderComponent={() => (
           <>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerClassName="flex-1 flex-row items-center px-4 py-4 gap-6"
-              className="bg-dark">
-              <View className="flex-row items-center">
-                <Ionicons name="location-outline" size={20} className="text-white" />
-                <Text className="text-white text-lg font-bold">48163</Text>
-              </View>
-              {['Alexa Lists', 'Prime', 'Video', 'Musik'].map((item) => (
-                <TouchableOpacity key={item}>
-                  <Text className="text-white text-md font-semibold">{item}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-
             {/* Hero banner */}
             <ScrollView
               horizontal
               pagingEnabled
               showsHorizontalScrollIndicator={false}
-              style={{ flex: 1, marginBottom: 20 }}>
+              className="flex-1 mb-10">
               {dummyHeros.map((hero) => (
                 <View
                   key={hero.text}
@@ -131,7 +160,7 @@ export default function Index() {
             )}
           </View>
         )}
-        contentContainerStyle={{ paddingTop: headerHeight || 120 }}
+        contentContainerStyle={{ paddingTop: 174 }}
       />
     </>
   );
