@@ -17,6 +17,11 @@ export const getArticles = async (): Promise<Article[]> => {
   return response.json();
 };
 
+export const getArticleById = async (id: number): Promise<Article> => {
+  const response = await fetch(`${API_URL}/articles/${id}`);
+  return response.json();
+};
+
 // const createJWT = async () => {
 //   const { getToken } = useAuth();
 
