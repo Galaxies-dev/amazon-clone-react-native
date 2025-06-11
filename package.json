@@ -18,6 +18,7 @@
     "@daily-co/react-native-daily-js": "^0.77.0",
     "@daily-co/react-native-webrtc": "^118.0.3-daily.3",
     "@expo/vector-icons": "^14.1.0",
+    "@gorhom/bottom-sheet": "^5",
     "@hookform/resolvers": "^5.0.1",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/bottom-tabs": "^7.3.10",

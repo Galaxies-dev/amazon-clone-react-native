@@ -25,7 +25,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
 
   return (
     <View
-      className="flex-row bg-white relative"
+      className="flex-row bg-white relative border-t border-gray-200"
       onLayout={(e) => setTabBarWidth(e.nativeEvent.layout.width)}>
       {/* Animated Tab Indicator */}
       {tabBarWidth > 0 && (

@@ -22,3 +22,5 @@ bun i @daily-co/config-plugin-rn-daily-js
 
 
 bun i react-native-filament react-native-worklets-core
+
+bun add @gorhom/bottom-sheet@^5

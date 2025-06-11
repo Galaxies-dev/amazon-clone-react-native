@@ -19,6 +19,10 @@ const Laoyut = () => {
           ),
         }}
       />
+      <Stack.Screen
+        name="modal"
+        options={{ presentation: 'formSheet', sheetAllowedDetents: [0.1, 0.6] }}
+      />
     </StyledStack>
   );
 };
