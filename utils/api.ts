@@ -10,6 +10,22 @@ export interface Article {
   createdAt: string;
 }
 
+interface Order {
+  id: number;
+  userId: number;
+  createdAt: string;
+  items: Item[];
+}
+
+interface Item {
+  id: number;
+  orderId: number;
+  articleId: number;
+  quantity: number;
+  createdAt: string;
+  article: Article;
+}
+
 export const getArticles = async (): Promise<Article[]> => {
   const response = await fetch(`${API_URL}/articles`);
   return response.json();
@@ -45,7 +61,7 @@ export const createPaymentIntent = async (amount: number, email: string) => {
   return response.json();
 };
 
-export const getOrders = async (token: string) => {
+export const getOrders = async (token: string): Promise<Order[]> => {
   const response = await fetch(`${API_URL}/orders`, {
     headers: {
       Authorization: `Bearer ${token}`,

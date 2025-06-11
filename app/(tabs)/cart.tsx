@@ -10,7 +10,7 @@ const Page = () => {
   const { articles, total } = useCartStore();
 
   return (
-    <View className={`flex-1 bg-white`} style={{ paddingTop: headerHeight + 120 }}>
+    <View className={`flex-1 bg-white`} style={{ paddingTop: headerHeight }}>
       {!articles.length && (
         <View className="flex-1 flex-row justify-center gap-10 p-10">
           <Ionicons name="cart-outline" size={64} className="text-gray-400" />
