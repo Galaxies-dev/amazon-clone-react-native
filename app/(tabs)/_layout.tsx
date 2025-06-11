@@ -1,5 +1,6 @@
 import CustomTabBar from '@/components/navigation/CustomTabBar';
 import { StyledTabs } from '@/components/navigation/tabs';
+import SearchBar from '@/components/SearchBar';
 import { useCartStore } from '@/utils/cartStore';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs, useRouter } from 'expo-router';
@@ -31,6 +32,7 @@ const Layout = () => {
       <Tabs.Screen
         name="cart"
         options={{
+          header: () => <SearchBar />,
           tabBarIcon: ({ color, size }) => (
             <View className="relative">
               <Ionicons name="cart-outline" color={color} size={size} />

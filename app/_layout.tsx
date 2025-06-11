@@ -6,10 +6,13 @@ import { passkeys } from '@clerk/clerk-expo/passkeys';
 import { tokenCache } from '@clerk/clerk-expo/token-cache';
 import { Ionicons } from '@expo/vector-icons';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Constants from 'expo-constants';
+import * as Linking from 'expo-linking';
 import { Stack, useRouter } from 'expo-router';
 import { cssInterop } from 'nativewind';
-import { LogBox, Platform, TouchableOpacity, useColorScheme } from 'react-native';
+import { LogBox, Platform, Text, TouchableOpacity, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSyncQueriesExternal } from 'react-query-external-sync';
 
@@ -34,6 +37,15 @@ cssInterop(Ionicons, {
     },
   },
 });
+
+// https://www.youtube.com/watch?v=J0tyxUV_omY&ab_channel=Expo
+const merchantId = Constants.expoConfig?.plugins?.find(
+  (p) => p[0] === '@stripe/stripe-react-native'
+)?.[1].merchantIdentifier;
+
+if (!merchantId) {
+  throw new Error('Missing Expo config for "@stripe/stripe-react-native"');
+}
 
 const InitialLayout = () => {
   const user = useUser();
@@ -86,6 +98,19 @@ const InitialLayout = () => {
           // sheetLargestUndimmedDetentIndex: 'last',
         }}
       />
+      <Stack.Screen
+        name="(modal)/checkout"
+        options={{
+          title: 'Amazon Checkout',
+          presentation: 'fullScreenModal',
+          animation: 'slide_from_bottom',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.dismiss()}>
+              <Text className="text-gray-200">Cancel</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </StyledStack>
   );
 };
@@ -130,9 +155,14 @@ const RootLayout = () => {
       <ClerkLoaded>
         <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView style={{ flex: 1 }}>
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <InitialLayout />
-            </ThemeProvider>
+            <StripeProvider
+              publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}
+              merchantIdentifier={merchantId}
+              urlScheme={Linking.createURL('/').split(':')[0]}>
+              <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                <InitialLayout />
+              </ThemeProvider>
+            </StripeProvider>
           </GestureHandlerRootView>
         </QueryClientProvider>
       </ClerkLoaded>

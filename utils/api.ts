@@ -1,5 +1,3 @@
-// import { useAuth } from "@clerk/clerk-expo";
-
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export interface Article {
@@ -22,51 +20,36 @@ export const getArticleById = async (id: number): Promise<Article> => {
   return response.json();
 };
 
-// const createJWT = async () => {
-//   const { getToken } = useAuth();
+export const createOrder = async (items: (Article & { quantity: number })[], token: string) => {
+  const response = await fetch(`${API_URL}/orders`, {
+    method: 'POST',
+    body: JSON.stringify({
+      items: items.map((item) => ({ articleId: item.id, quantity: item.quantity })),
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+};
 
-//   const token = await getToken();
-//   console.log('🚀 ~ createJWT ~ token:', token);
-// };
+export const createPaymentIntent = async (amount: number, email: string) => {
+  const response = await fetch(`${API_URL}/orders/payment-sheet`, {
+    method: 'POST',
+    body: JSON.stringify({ amount, currency: 'usd', email }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.json();
+};
 
-// const fetchOrders = async () => {
-//   const { getToken } = useAuth();
-
-//   const token = await getToken();
-//   console.log('fetch...');
-
-//   // console.log('🚀 ~ fetchOrders ~ token:', token);
-//   const response = await fetch('http://localhost:3000/orders', {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-//   console.log('response...');
-
-//   const data = await response.json();
-//   console.log('🚀 ~ fetchOrders ~ data:', data);
-// };
-
-// export const getProducts = async (): Promise<Product[]> => {
-//   const response = await fetch(`${API_URL}/products`);
-//   const fake = {
-//     title: 'Shiny product',
-//     price: 109.95,
-//     description: 'Looks like a regular product',
-//     category: "men's clothing",
-//     image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-//     rating: { rate: 3.9, count: 120 },
-//   };
-//   const json = await response.json();
-//   return [...json, fake];
-// };
-
-// export const getProduct = async (id: number): Promise<Product> => {
-//   const response = await fetch(`${API_URL}/products/${id}`);
-//   return response.json();
-// };
-
-// export const getCategories = async (): Promise<string[]> => {
-//   const response = await fetch(`${API_URL}/products/categories`);
-//   return response.json();
-// };
+export const getOrders = async (token: string) => {
+  const response = await fetch(`${API_URL}/orders`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+};

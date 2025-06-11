@@ -73,7 +73,14 @@
         }
       ],
       "@config-plugins/react-native-webrtc",
-      "@daily-co/config-plugin-rn-daily-js"
+      "@daily-co/config-plugin-rn-daily-js",
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.amazon-clone",
+          "publishableKey": "pk_test_51RYnVARRxlMUMr88ICWxOtaKbL8DSyd5q8JCmiPIxN4h3gt4zyiw5ZCiJ6wxpIpqo9cw8qKfq8ptBUDrNeB1t9Gy000v4h3IMO"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
