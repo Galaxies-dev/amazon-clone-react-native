@@ -1,9 +1,8 @@
-import SearchBar from '@/components/SearchBar';
 import { getArticles } from '@/utils/api';
 import { Ionicons } from '@expo/vector-icons';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useQuery } from '@tanstack/react-query';
-import { Link, Stack } from 'expo-router';
+import { Link } from 'expo-router';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -82,14 +81,6 @@ export default function Index() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          header: () => <SearchBar />,
-          // headerShown: true,
-          // headerTransparent: true,
-        }}
-      />
-
       <Animated.ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

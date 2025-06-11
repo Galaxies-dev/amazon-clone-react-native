@@ -1,81 +1,55 @@
+import { Article } from '@/utils/api';
 import { zustandStorage } from '@/utils/storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: Rating;
-}
-
-export interface Rating {
-  rate: number;
-  count: number;
-}
-
 export interface CartState {
-  products: Array<Product & { quantity: number }>;
-  addProduct: (product: Product) => void;
-  reduceProduct: (product: Product) => void;
+  articles: Array<Article & { quantity: number }>;
+  addArticle: (article: Article) => void;
+  reduceArticle: (article: Article) => void;
   clearCart: () => void;
   total: number;
   count: number;
 }
 
 const INITIAL_STATE = {
-  products: [],
+  articles: [],
   total: 0,
   count: 0,
 };
 
-const useCartStore = create<CartState>()(
+function recalculate(articles: Array<Article & { quantity: number }>) {
+  const total = articles.reduce((sum, a) => sum + a.price * a.quantity, 0);
+  const count = articles.reduce((sum, a) => sum + a.quantity, 0);
+  return { total, count };
+}
+
+export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       ...INITIAL_STATE,
-      addProduct: (product) => {
+      addArticle: (article) => {
         set((state) => {
-          const hasProduct = state.products.find((p) => p.id === product.id);
-          const newTotal = +state.total.toFixed(2) + +product.price.toFixed(2);
-          const newCount = state.count + 1;
-
-          if (hasProduct) {
-            return {
-              products: state.products.map((p) =>
-                p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
-              ),
-              total: +newTotal.toFixed(2),
-              count: newCount,
-            };
-          } else {
-            return {
-              products: [...state.products, { ...product, quantity: 1 }],
-              total: +newTotal.toFixed(2),
-              count: newCount,
-            };
-          }
+          let found = false;
+          const articles = state.articles.map((a) => {
+            if (a.id === article.id) {
+              found = true;
+              return { ...a, quantity: a.quantity + 1 };
+            }
+            return a;
+          });
+          const newArticles = found ? articles : [...state.articles, { ...article, quantity: 1 }];
+          const { total, count } = recalculate(newArticles);
+          return { articles: newArticles, total, count };
         });
       },
-      reduceProduct: (product) => {
+      reduceArticle: (article) => {
         set((state) => {
-          const newTotal = +state.total.toFixed(2) - +product.price.toFixed(2);
-          const newCount = state.count - 1;
-
-          return {
-            products: state.products
-              .map((p) => {
-                if (p.id === product.id) {
-                  return { ...p, quantity: p.quantity - 1 };
-                }
-                return p;
-              })
-              .filter((p) => p.quantity > 0),
-            total: newTotal,
-            count: newCount,
-          };
+          const articles = state.articles
+            .map((a) => (a.id === article.id ? { ...a, quantity: a.quantity - 1 } : a))
+            .filter((a) => a.quantity > 0);
+          const { total, count } = recalculate(articles);
+          return { articles, total, count };
         });
       },
       clearCart: () => {
@@ -88,5 +62,3 @@ const useCartStore = create<CartState>()(
     }
   )
 );
-
-export default useCartStore;

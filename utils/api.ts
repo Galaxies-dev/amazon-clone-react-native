@@ -2,7 +2,7 @@
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
-interface Article {
+export interface Article {
   id: number;
   title: string;
   description: string;

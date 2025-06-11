@@ -1,10 +1,12 @@
 import Rufus from '@/components/Rufus';
 import SearchBar from '@/components/SearchBar';
 import { getArticleById } from '@/utils/api';
+import { useCartStore } from '@/utils/cartStore';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useQuery } from '@tanstack/react-query';
+import * as Haptics from 'expo-haptics';
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useRef } from 'react';
 import {
@@ -45,6 +47,7 @@ const AnimatedBottomSheetView = Animated.createAnimatedComponent(BottomSheetView
 const Page = () => {
   const { id } = useLocalSearchParams();
   const headerHeight = useHeaderHeight();
+  const { addArticle } = useCartStore();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['article', id],
@@ -104,6 +107,11 @@ const Page = () => {
     );
   }
 
+  const onAddToCart = () => {
+    addArticle(data);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
   const onPhrasePress = async (phrase: string) => {
     // if (callStatus !== CALL_STATUS.ACTIVE) {
     //   await toggleCall();
@@ -152,13 +160,15 @@ const Page = () => {
         <Text className="text-[15px] text-[#333] mx-4 mb-4">{data.description}</Text>
         {/* View in 3D */}
         <Link href={`/(modal)/(3d)/${id}`} asChild>
-          <TouchableOpacity className="rounded-full mx-4 mt-3 p-3 items-center border border-blue-500 w-36 self-center">
+          <TouchableOpacity className="flex-1 mx-10 rounded-full items-center justify-center py-4 border border-blue-500 ">
             <Text className="text-blue-500 font-bold text-base">View in 3D</Text>
           </TouchableOpacity>
         </Link>
 
         {/* Bottom Buttons */}
-        <TouchableOpacity className="flex-1 mx-10 bg-[#FFD814] rounded-full items-center justify-center py-4 my-4">
+        <TouchableOpacity
+          onPress={onAddToCart}
+          className="flex-1 mx-10 bg-[#FFD814] rounded-full items-center justify-center py-4 my-4">
           <Text className="text-[#222] font-bold text-base">Add to Basket</Text>
         </TouchableOpacity>
         <TouchableOpacity className="flex-1 mx-10 bg-[#FFA41C] rounded-full items-center justify-center py-4">
@@ -174,7 +184,7 @@ const Page = () => {
         enableDynamicSizing={false}
         enableContentPanningGesture={false}
         animatedPosition={currentPosition}
-        index={-1}
+        // index={-1}
         style={{
           boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
           borderTopLeftRadius: 20,
