@@ -15,7 +15,7 @@ const Page = () => {
     <View className={`flex-1 bg-white`} style={{ paddingTop: headerHeight || 120 }}>
       {showOverlay && <VapiOverlay />}
       {!articles.length && (
-        <View className="flex-1 flex-row justify-center gap-10 p-10">
+        <View className="flex-1 flex-row justify-center gap-10 p-10 pt-20 ">
           <Ionicons name="cart-outline" size={64} className="text-gray-400" />
           <View className="flex-1 items-start">
             <Text className="text-2xl font-bold mb-2">Your cart is empty</Text>
@@ -29,9 +29,9 @@ const Page = () => {
           data={articles}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <CartItem article={item} />}
-          contentContainerClassName="bg-white p-4"
+          contentContainerClassName="bg-white p-4 "
           ListHeaderComponent={
-            <View className="bg-white border-b border-gray-200 p-4">
+            <View className="bg-white border-b border-gray-200 p-4 pt-12">
               <View className="flex-row justify-between items-center mb-3">
                 <Text className="text-lg font-semibold">Subtotal</Text>
                 <Text className="text-2xl font-bold">€{total.toFixed(2)}</Text>

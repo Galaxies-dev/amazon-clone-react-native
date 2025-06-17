@@ -92,14 +92,29 @@ If you want to give your assistant access to a knowledge base, upload the dummy_
 ## App Screenshots
 
 <div style="display: flex; flex-direction: 'row';">
-<img src="./screenshots/rufus1.png" width="200" style="margin: 10px;">
-<img src="./screenshots/rufus2.png" width="200" style="margin: 10px;">
-
+<img src="./screenshots/app01.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app02.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app03.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app04.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app05.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app06.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app07.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app08.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app09.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app10.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app11.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app12.png" width="200" style="margin: 10px;">
 </div>
 
 ## Demo
 
 <div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/demo1.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo2.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo3.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo4.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo5.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo6.gif" width="200" style="margin: 10px;">
 
 </div>
 
