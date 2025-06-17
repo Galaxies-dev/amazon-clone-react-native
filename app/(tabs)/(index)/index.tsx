@@ -32,8 +32,7 @@ const dummyHeros = [
   },
 ];
 export default function Index() {
-  const [showOverlay, setShowOverlay] = useMMKVBoolean('vapi.overlay');
-  console.log('🚀 ~ Index ~ showOverlay:', showOverlay);
+  const [showOverlay] = useMMKVBoolean('vapi.overlay');
 
   const {
     data: articles,

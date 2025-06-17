@@ -60,7 +60,6 @@ const Page = () => {
       console.error(JSON.stringify(err, null, 2));
       if (isClerkAPIResponseError(err)) {
         const errors = err.errors;
-        console.log(errors);
         if (errors[0].code === 'form_identifier_not_found') {
           createAccount(data);
         } else {
@@ -71,8 +70,6 @@ const Page = () => {
   };
 
   const createAccount = async (data: SignInForm) => {
-    console.log('createAccount');
-
     if (!isLoadedSignUp) return;
     // Start sign-up process using email and password provided
     try {

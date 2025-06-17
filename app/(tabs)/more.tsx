@@ -12,7 +12,6 @@ const Page = () => {
   useEffect(() => {
     const loadToken = async () => {
       const token = await getToken();
-      console.log('🚀 ~ loadToken ~ token:', token);
       setToken(token);
     };
     loadToken();

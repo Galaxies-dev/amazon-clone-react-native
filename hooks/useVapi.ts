@@ -1,4 +1,9 @@
-import { Message, MessageTypeEnum, TranscriptMessageTypeEnum } from '@/utils/conversation.types';
+import {
+  Message,
+  MessageRoleEnum,
+  MessageTypeEnum,
+  TranscriptMessageTypeEnum,
+} from '@/utils/conversation.types';
 import { useUser } from '@clerk/clerk-react';
 import Vapi from '@vapi-ai/react-native';
 import { useEffect, useState } from 'react';
@@ -61,24 +66,21 @@ export function useVapi() {
 
   const startCall = async (type?: 'assistant' | 'workflow') => {
     setCallStatus(CALL_STATUS.CONNECTING);
-    let id =
-      type === 'assistant'
-        ? process.env.EXPO_PUBLIC_VAPI_ASSISTANT_ID
-        : process.env.EXPO_PUBLIC_VAPI_WORKFLOW_ID;
-    console.log('🚀 ~ startCall ~ user:', user?.firstName);
 
-    const response = vapi.start(id, {
-      variableValues: {
-        name: user?.firstName,
-      },
-    });
-    response
-      .then((_res) => {
-        console.log('call', _res);
-      })
-      .catch((e) => {
-        console.error('got an error while starting the call', e);
+    if (type === 'assistant') {
+      vapi.start(process.env.EXPO_PUBLIC_VAPI_ASSISTANT_ID, {
+        variableValues: {
+          name: user?.firstName,
+        },
       });
+    } else {
+      const id = process.env.EXPO_PUBLIC_VAPI_WORKFLOW_ID;
+      await vapi.start(null, {}, null, id, {
+        variableValues: {
+          name: user?.firstName,
+        },
+      });
+    }
   };
 
   const stop = () => {
@@ -91,14 +93,25 @@ export function useVapi() {
   };
   const isMuted = vapi.isMuted;
 
-  const send = (msg: any) => {
-    return vapi.send({
+  const send = async (msg: any) => {
+    const message: Message = {
+      role: MessageRoleEnum.USER,
+      transcript: msg,
+      transcriptType: TranscriptMessageTypeEnum.FINAL,
+      type: MessageTypeEnum.TRANSCRIPT,
+    };
+
+    const vapiMsg = await vapi.send({
       type: 'add-message',
       message: {
         role: 'user',
         content: msg,
       },
     });
+
+    setMessages((prev) => [...prev, message]);
+
+    return vapiMsg;
   };
 
   return {
