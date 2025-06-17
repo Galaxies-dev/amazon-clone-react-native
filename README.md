@@ -1,6 +1,8 @@
 # React Native Amazon Clone with Vapi, Clerk & Sentry
 
-This is a React Native AI Captions Editor using [Convex](https://convex.link/simongrimm) for real-time data synchronization, [ElevenLabs](https://try.elevenlabs.io/j7ztnqelnoqj) for text-to-speech, [Clerk](https://go.clerk.com/GiiEcN5) for user authentication and [Sentry](https://dub.sh/sentry-galaxies) for error tracking.
+This is a React Native Amazon Clone with Vapi, Clerk & Sentry.
+
+Make sure to also check out the [API Project](https://github.com/Galaxies-dev/amazon-node-api) for this project.
 
 Additional features:
 
@@ -8,7 +10,6 @@ Additional features:
 - [Vapi](https://vapi.ai/) for AI voice agents
 - [Sentry](https://dub.sh/sentry-galaxies) for error tracking
 - [Clerk Passkeys](https://docs.clerk.com/passkeys/overview?utm_source=simong&utm_medium=youtube&utm_campaign=captions-clone&dub_id=5zB4z5fxgHWQzbgE) for passwordless authentication
-- [Haptics](https://docs.expo.dev/versions/latest/sdk/haptics/) for haptic feedback
 - [Zustand](https://github.com/pmndrs/zustand) for state management
 - [NativeWind](https://www.nativewind.dev/) for styling
 - [TanStack Query](https://tanstack.com/query/latest) for data fetching
@@ -48,10 +49,38 @@ To build the app, follow these steps:
 3. Run `npx expo prebuild`
 4. Run `npx expo run:ios` or `npx expo run:android`
 
+### Setup Environment Variables
+
+Create a new file named `.env` in the root of your project and add the following content:
+
+```env
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=
+EXPO_PUBLIC_API_URL=http://localhost:3000
+EXPO_PUBLIC_VAPI_KEY=
+EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+EXPO_PUBLIC_VAPI_WORKFLOW_ID=
+EXPO_PUBLIC_VAPI_ASSISTANT_ID=
+```
+
+Replace the placeholders with your own values.
+
 ### Vapi Setup
 
-- create assistant and copy id to .env
-- create workflow and copy id to .env
+Create your Vapi account and then add a new Assistant with your preferred settings.
+
+<img src="./screenshots/vapi-assistant.png" width=100%>
+
+Copy the Assistant ID and add it to the `.env` file.
+
+Create a new Workflow in the Vapi dashboard.
+
+<img src="./screenshots/vapi-workflow.png" width=100%>
+
+Copy the Workflow ID and add it to the `.env` file.
+
+If you want to give your assistant access to a knowledge base, upload the dummy_items.json from our [API](https://github.com/Galaxies-dev/amazon-node-api) to the knowledge base.
+
+<img src="./screenshots/vapi-file.png" width=100%>
 
 ### Sentry Setup
 
@@ -94,7 +123,6 @@ To build the app, follow these steps:
 <div style="display: flex; flex-direction: 'row';">
 <img src="./screenshots/sentry1.png" width="100%" style="margin: 10px;">
 <img src="./screenshots/sentry2.png" width="100%" style="margin: 10px;">
-<img src="./screenshots/sentry3.gif" width="100%" style="margin: 10px;">
 
 </div>
 
