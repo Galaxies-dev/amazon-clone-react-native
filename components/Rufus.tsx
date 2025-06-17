@@ -10,20 +10,11 @@ const SUGGESTED_PHRASES = [
 ];
 
 const Rufus = () => {
-  const {
-    start,
-    stop,
-    setMuted,
-    isMuted,
-    callStatus,
-    activeTranscript,
-    messages,
-    send,
-    toggleCall,
-  } = useVapi();
+  const { startCall, callStatus, messages, send } = useVapi();
+
   const onPhrasePress = async (phrase: string) => {
     if (callStatus !== CALL_STATUS.ACTIVE) {
-      await toggleCall();
+      await startCall('workflow');
     }
     send(phrase);
   };
@@ -77,7 +68,7 @@ const Rufus = () => {
             style={{ minHeight: 40 }}
           />
 
-          <TouchableOpacity className="ml-2" onPress={toggleCall}>
+          <TouchableOpacity className="ml-2" onPress={() => startCall('workflow')}>
             <Ionicons
               name={callStatus === CALL_STATUS.ACTIVE ? 'stop-circle-outline' : 'mic-outline'}
               size={24}

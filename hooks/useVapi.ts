@@ -7,10 +7,6 @@ const key = process.env.EXPO_PUBLIC_VAPI_KEY as string;
 const vapi = new Vapi(key);
 
 export enum CALL_STATUS {
-  // INACTIVE = 'inactive',
-  // ACTIVE = 'active',
-  // LOADING = 'loading',
-  // FINISHED = 'finished',
   INACTIVE = 'INACTIVE',
   CONNECTING = 'CONNECTING',
   ACTIVE = 'ACTIVE',
@@ -20,36 +16,28 @@ export enum CALL_STATUS {
 export function useVapi() {
   const [callStatus, setCallStatus] = useState<CALL_STATUS>(CALL_STATUS.INACTIVE);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [activeTranscript, setActiveTranscript] = useState<Message | null>(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const { user } = useUser();
+
   useEffect(() => {
     const onCallStartHandler = () => {
-      console.log('Call has started');
       setCallStatus(CALL_STATUS.ACTIVE);
     };
 
     const onCallEnd = () => {
-      console.log('call has ended ok');
-      console.log('Call has stopped');
       setCallStatus(CALL_STATUS.FINISHED);
     };
 
     const onMessageUpdate = (message: Message) => {
-      console.log('onMessageUpdate', message);
       if (
         message.type === MessageTypeEnum.TRANSCRIPT &&
         message.transcriptType === TranscriptMessageTypeEnum.FINAL
       ) {
         setMessages((prev) => [...prev, message]);
-        setActiveTranscript(null);
-      } else {
-        setActiveTranscript(message);
       }
     };
 
     const onError = (e: any) => {
-      console.log('on error triggered');
       setCallStatus(CALL_STATUS.INACTIVE);
       console.error(e);
     };
@@ -72,14 +60,12 @@ export function useVapi() {
   }, []);
 
   const startCall = async (type?: 'assistant' | 'workflow') => {
-    console.log('starting the call');
     setCallStatus(CALL_STATUS.CONNECTING);
     let id =
       type === 'assistant'
         ? process.env.EXPO_PUBLIC_VAPI_ASSISTANT_ID
         : process.env.EXPO_PUBLIC_VAPI_WORKFLOW_ID;
-    console.log('🚀 ~ startCall ~ id:', id);
-    console.log('🚀 ~ startCall ~ user:', user);
+    console.log('🚀 ~ startCall ~ user:', user?.firstName);
 
     const response = vapi.start(id, {
       variableValues: {
@@ -100,17 +86,7 @@ export function useVapi() {
     vapi.stop();
   };
 
-  const toggleCall = async (type?: 'assistant' | 'workflow') => {
-    if (callStatus === CALL_STATUS.ACTIVE) {
-      console.log('stopping the call');
-      stop();
-    } else {
-      await startCall(type);
-    }
-  };
-
   const setMuted = (value: boolean) => {
-    console.log('mute');
     vapi.setMuted(value);
   };
   const isMuted = vapi.isMuted;
@@ -127,13 +103,12 @@ export function useVapi() {
 
   return {
     callStatus,
-    activeTranscript,
     messages,
     startCall,
     stop,
     setMuted,
     isMuted,
-    toggleCall,
     send,
+    isSpeaking,
   };
 }

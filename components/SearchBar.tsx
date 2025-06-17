@@ -27,7 +27,7 @@ const SearchBar = ({ withBackButton = false }: SearchBarProps) => {
           <Ionicons name="arrow-back" size={24} color="white" />
         </AnimatedTouchableOpacity>
       )}
-      <View className="flex-row items-center flex-1 bg-white rounded-md px-3 py-3 mx-3 shadow-sm gap-4 ">
+      <View className="flex-row items-center flex-1 bg-white rounded-md px-3 py-3 mx-3 gap-4">
         <Ionicons name="search" size={22} className="text-gray-500" />
         <TextInput
           className="flex-1 text-black"

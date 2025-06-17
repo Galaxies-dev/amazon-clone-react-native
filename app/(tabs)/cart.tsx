@@ -1,16 +1,19 @@
 import CartItem from '@/components/CartItem';
+import VapiOverlay from '@/components/VapiOverlay';
 import { useCartStore } from '@/utils/cartStore';
 import { Ionicons } from '@expo/vector-icons';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { Link } from 'expo-router';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { useMMKVBoolean } from 'react-native-mmkv';
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
   const { articles, total } = useCartStore();
-
+  const [showOverlay, setShowOverlay] = useMMKVBoolean('vapi.overlay');
   return (
     <View className={`flex-1 bg-white`} style={{ paddingTop: headerHeight || 120 }}>
+      {showOverlay && <VapiOverlay />}
       {!articles.length && (
         <View className="flex-1 flex-row justify-center gap-10 p-10">
           <Ionicons name="cart-outline" size={64} className="text-gray-400" />

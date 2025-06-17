@@ -154,7 +154,7 @@ export default function Index() {
             )}
           </View>
         )}
-        contentContainerStyle={{ paddingTop: 174 }}
+        contentContainerStyle={{ paddingTop: 112 }}
       />
     </>
   );

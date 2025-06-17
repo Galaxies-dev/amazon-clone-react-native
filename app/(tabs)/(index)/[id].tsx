@@ -1,5 +1,6 @@
 import Rufus from '@/components/Rufus';
 import SearchBar from '@/components/SearchBar';
+import VapiOverlay from '@/components/VapiOverlay';
 import { getArticleById } from '@/utils/api';
 import { useCartStore } from '@/utils/cartStore';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,6 +19,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useMMKVBoolean } from 'react-native-mmkv';
 import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
@@ -48,7 +50,7 @@ const Page = () => {
   const { id } = useLocalSearchParams();
   const headerHeight = useHeaderHeight();
   const { addArticle } = useCartStore();
-
+  const [showOverlay, setShowOverlay] = useMMKVBoolean('vapi.overlay');
   const { data, isLoading, isError } = useQuery({
     queryKey: ['article', id],
     queryFn: () => getArticleById(+id),
@@ -121,6 +123,8 @@ const Page = () => {
 
   return (
     <View className="flex-1 bg-white" style={{ paddingTop: headerHeight || 120 }}>
+      {showOverlay && <VapiOverlay />}
+
       <Stack.Screen
         options={{
           header: () => <SearchBar withBackButton />,
