@@ -11,7 +11,7 @@ bun add @tanstack/react-query
 bun add -D @tanstack/eslint-plugin-query
 bun install zustand
 bun install react-hook-form @hookform/resolvers zod  
-bunx expo install react-native-mmkv
+bunx expo install react-native-mmkv@2
 bun install --save-dev react-query-external-sync socket.io-client
 
 
@@ -26,3 +26,5 @@ bun i react-native-filament react-native-worklets-core
 bun add @gorhom/bottom-sheet@^5
 
 bunx expo install @stripe/stripe-react-native
+
+bunx @sentry/wizard@latest -i reactNative

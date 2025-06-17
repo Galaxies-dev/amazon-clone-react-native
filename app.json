@@ -16,7 +16,9 @@
         "webcredentials:sought-arachnid-8.clerk.accounts.dev"
       ],
       "infoPlist": {
-        "UIBackgroundModes": ["voip"],
+        "UIBackgroundModes": [
+          "voip"
+        ],
         "NSCameraUsageDescription": "This app uses the camera to let user put a photo in his profile page.",
         "NSMicrophoneUsageDescription": "This app uses the microphone to let user make a call."
       },
@@ -79,6 +81,14 @@
         {
           "merchantIdentifier": "merchant.com.amazon-clone",
           "publishableKey": "pk_test_51RYnVARRxlMUMr88ICWxOtaKbL8DSyd5q8JCmiPIxN4h3gt4zyiw5ZCiJ6wxpIpqo9cw8qKfq8ptBUDrNeB1t9Gy000v4h3IMO"
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "amazon-clone",
+          "organization": "galaxies"
         }
       ]
     ],

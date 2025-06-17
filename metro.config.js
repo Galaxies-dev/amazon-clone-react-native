@@ -1,7 +1,10 @@
-const { getDefaultConfig } = require('expo/metro-config');
 const { withNativeWind } = require('nativewind/metro');
+const { getSentryExpoConfig } = require('@sentry/react-native/metro');
 
-const defaultConfig = getDefaultConfig(__dirname);
+const defaultConfig = getSentryExpoConfig(__dirname, {
+  annotateReactComponents: true,
+  enableSourceContextInDevelopment: true,
+});
 
 defaultConfig.resolver.assetExts.push('glb');
 

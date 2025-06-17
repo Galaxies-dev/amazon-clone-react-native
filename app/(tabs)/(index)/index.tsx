@@ -1,6 +1,6 @@
+import VapiOverlay from '@/components/VapiOverlay';
 import { getArticles } from '@/utils/api';
 import { Ionicons } from '@expo/vector-icons';
-import { useHeaderHeight } from '@react-navigation/elements';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import React from 'react';
@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useMMKVBoolean } from 'react-native-mmkv';
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -31,7 +32,8 @@ const dummyHeros = [
   },
 ];
 export default function Index() {
-  const headerHeight = useHeaderHeight();
+  const [showOverlay, setShowOverlay] = useMMKVBoolean('vapi.overlay');
+  console.log('🚀 ~ Index ~ showOverlay:', showOverlay);
 
   const {
     data: articles,
@@ -81,6 +83,7 @@ export default function Index() {
 
   return (
     <>
+      {showOverlay && <VapiOverlay />}
       <Animated.ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

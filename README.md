@@ -1,50 +1,106 @@
-# Welcome to your Expo app 👋
+# React Native Amazon Clone with Vapi, Clerk & Sentry
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native AI Captions Editor using [Convex](https://convex.link/simongrimm) for real-time data synchronization, [ElevenLabs](https://try.elevenlabs.io/j7ztnqelnoqj) for text-to-speech, [Clerk](https://go.clerk.com/GiiEcN5) for user authentication and [Sentry](https://dub.sh/sentry-galaxies) for error tracking.
 
-## Get started
+Additional features:
 
-1. Install dependencies
+- [Expo Router](https://docs.expo.dev/routing/introduction/) file-based navigation
+- [Vapi](https://vapi.ai/) for AI voice agents
+- [Sentry](https://dub.sh/sentry-galaxies) for error tracking
+- [Clerk Passkeys](https://docs.clerk.com/passkeys/overview?utm_source=simong&utm_medium=youtube&utm_campaign=captions-clone&dub_id=5zB4z5fxgHWQzbgE) for passwordless authentication
+- [Haptics](https://docs.expo.dev/versions/latest/sdk/haptics/) for haptic feedback
+- [Zustand](https://github.com/pmndrs/zustand) for state management
+- [NativeWind](https://www.nativewind.dev/) for styling
+- [TanStack Query](https://tanstack.com/query/latest) for data fetching
+- [Reanimated](https://docs.swmansion.com/react-native-reanimated/) for animations
+- [React Hook Form](https://react-hook-form.com/) for form handling
+- [Zod](https://zod.dev/) for schema validation
+- [React Native MMKV](https://github.com/mrousavy/react-native-mmkv) for secure storage
+- [Filament](https://github.com/margelo/react-native-filament) for 3D rendering
+- [Bottom Sheet](https://gorhom.dev/react-native-bottom-sheet/) for bottom sheets
+- [Stripe React Native SDK](https://docs.expo.dev/versions/latest/sdk/stripe/) for payment processing
 
-   ```bash
-   npm install
-   ```
+### 🎥 Follow the video tutorial
 
-2. Start the app
+Watch and build this Amazon Clone step by step:
 
-   ```bash
-   npx expo start
-   ```
+TODO: Add video
+<p align="center">
+  <a href="https://youtu.be/A8gJFybTPr0?si=MbVOcnPJEfRWCOmi" target="_blank">
+    <!-- <img src="https://img.youtube.com/vi/A8gJFybTPr0/maxresdefault.jpg" alt="Build a React Native AI Captions Editor with Convex, ElevenLabs, Sentry and Expo" width="100%" /> -->
+  </a>
+</p>
 
-In the output, you'll find options to open the app in a
+## Setup
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Environment Setup
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Make sure you have the [Expo CLI](https://docs.expo.dev/get-started/set-up-your-environment/) installed.
 
-## Get a fresh project
+For the best development experience, you should have [Android Studio](https://developer.android.com/studio) and [Xcode](https://developer.apple.com/xcode/) (Mac only) installed. For more information on setting up your development environment, refer to the [Expo documentation](https://docs.expo.dev/workflow/android-studio-emulator/) for Android Studio and the [React Native documentation](https://reactnative.dev/docs/environment-setup?guide=native) for Xcode.
 
-When you're ready, run:
+### App Setup
 
-```bash
-npm run reset-project
-```
+To build the app, follow these steps:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+1. Clone the repository
+2. Run `npm install`
+3. Run `npx expo prebuild`
+4. Run `npx expo run:ios` or `npx expo run:android`
 
-## Learn more
+### Vapi Setup
 
-To learn more about developing your project with Expo, look at the following resources:
+- create assistant and copy id to .env
+- create workflow and copy id to .env
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Sentry Setup
 
-## Join the community
+1. Create a new project on [Sentry](https://dub.sh/sentry-galaxies)
+2. Use the `npx @sentry/wizard@latest -s -i reactNative` command to setup Sentry for your project
 
-Join our community of developers creating universal apps.
+<img src="./screenshots/dsn.png" width=100%>
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## App Screenshots
+
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/app01.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app02.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app03.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app04.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app05.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app06.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app07.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app08.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app09.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app10.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app11.png" width="200" style="margin: 10px;">
+<img src="./screenshots/app12.png" width="200" style="margin: 10px;">
+
+</div>
+
+## Demo
+
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/demo1.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo2.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo3.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo4.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo5.gif" width="200" style="margin: 10px;">
+<img src="./screenshots/demo6.gif" width="200" style="margin: 10px;">
+</div>
+
+## Sentry Screenshots
+
+<div style="display: flex; flex-direction: 'row';">
+<img src="./screenshots/sentry1.png" width="100%" style="margin: 10px;">
+<img src="./screenshots/sentry2.png" width="100%" style="margin: 10px;">
+<img src="./screenshots/sentry3.gif" width="100%" style="margin: 10px;">
+
+</div>
+
+## 🚀 More
+
+**Take a shortcut from web developer to mobile development fluency with guided learning**
+Enjoyed this project? Learn to use React Native to build production-ready, native mobile apps for both iOS and Android based on your existing web development skills.
+
+<a href="https://galaxies.dev?utm_source=simongrimm&utm_medium=github&vid=ai-captions-editor"><img src="banner.png" height="auto" width="100%"></a>
