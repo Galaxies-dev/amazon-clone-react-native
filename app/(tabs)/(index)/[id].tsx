@@ -51,6 +51,7 @@ const Page = () => {
   const headerHeight = useHeaderHeight();
   const { addArticle } = useCartStore();
   const [showOverlay, setShowOverlay] = useMMKVBoolean('vapi.overlay');
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['article', id],
     queryFn: () => getArticleById(+id),

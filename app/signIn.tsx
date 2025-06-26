@@ -32,7 +32,7 @@ const Page = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, setActive, isLoaded } = useSignIn();
-  const { signUp, setActive: setActiveSignUp, isLoaded: isLoadedSignUp } = useSignUp();
+  const { signUp, isLoaded: isLoadedSignUp } = useSignUp();
 
   const onSubmit = async (data: SignInForm) => {
     if (!isLoaded) return;
@@ -159,11 +159,11 @@ const Page = () => {
               autoCorrect={false}
               textContentType="password"
               accessibilityLabel="Amazon password"
-              testID="password-input"
             />
           )}
         />
         {errors.password && <Text className="text-red-500 mb-2">{errors.password.message}</Text>}
+
         <TouchableOpacity
           className="flex-row items-center mb-4"
           onPress={() => setShowPassword((prev) => !prev)}
@@ -178,11 +178,13 @@ const Page = () => {
           </View>
           <Text className="text-base">Show password</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           className="bg-yellow-400 rounded-full py-3 items-center mb-4"
           onPress={handleSubmit(onSubmit)}>
           <Text className="text-lg font-medium text-black">Sign in</Text>
         </TouchableOpacity>
+
         <View className="flex-row items-center mb-4">
           <View className="flex-1 h-px bg-gray-300" />
           <Text className="mx-2 text-gray-500">Or</Text>

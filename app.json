@@ -16,9 +16,7 @@
         "webcredentials:sought-arachnid-8.clerk.accounts.dev"
       ],
       "infoPlist": {
-        "UIBackgroundModes": [
-          "voip"
-        ],
+        "UIBackgroundModes": ["voip"],
         "NSCameraUsageDescription": "This app uses the camera to let user put a photo in his profile page.",
         "NSMicrophoneUsageDescription": "This app uses the microphone to let user make a call."
       },

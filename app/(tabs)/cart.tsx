@@ -11,6 +11,7 @@ const Page = () => {
   const headerHeight = useHeaderHeight();
   const { articles, total } = useCartStore();
   const [showOverlay, setShowOverlay] = useMMKVBoolean('vapi.overlay');
+
   return (
     <View className={`flex-1 bg-white`} style={{ paddingTop: headerHeight || 120 }}>
       {showOverlay && <VapiOverlay />}

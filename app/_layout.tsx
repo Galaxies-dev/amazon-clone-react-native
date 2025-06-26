@@ -56,15 +56,6 @@ cssInterop(Ionicons, {
   },
 });
 
-// https://www.youtube.com/watch?v=J0tyxUV_omY&ab_channel=Expo
-const merchantId = Constants.expoConfig?.plugins?.find(
-  (p) => p[0] === '@stripe/stripe-react-native'
-)?.[1].merchantIdentifier;
-
-if (!merchantId) {
-  throw new Error('Missing Expo config for "@stripe/stripe-react-native"');
-}
-
 const InitialLayout = () => {
   const user = useUser();
   const router = useRouter();
@@ -127,6 +118,15 @@ const InitialLayout = () => {
     </StyledStack>
   );
 };
+
+// https://www.youtube.com/watch?v=J0tyxUV_omY&ab_channel=Expo
+const merchantId = Constants.expoConfig?.plugins?.find(
+  (p) => p[0] === '@stripe/stripe-react-native'
+)?.[1].merchantIdentifier;
+
+if (!merchantId) {
+  throw new Error('Missing Expo config for "@stripe/stripe-react-native"');
+}
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
