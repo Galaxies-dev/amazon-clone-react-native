@@ -25,10 +25,10 @@ Additional features:
 
 Watch and build this Amazon Clone step by step:
 
-TODO: Add video
 <p align="center">
-  <a href="https://youtu.be/A8gJFybTPr0?si=MbVOcnPJEfRWCOmi" target="_blank">
-    <!-- <img src="https://img.youtube.com/vi/A8gJFybTPr0/maxresdefault.jpg" alt="Build a React Native AI Captions Editor with Convex, ElevenLabs, Sentry and Expo" width="100%" /> -->
+  <a href="https://youtu.be/1P9dZZcRcao?si=HjRYc0VIIsrQSXU7" target="_blank">
+    <img src="https://img.youtube.com/vi/1P9dZZcRcao/maxresdefault.jpg" alt="
+Build the Amazon App with React Native & AI Voice Agents (Vapi, NativeWind, TanStack, Expo)" width="100%" />
   </a>
 </p>
 
