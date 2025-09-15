@@ -21,7 +21,7 @@ const VapiOverlay = () => {
   }, [callStatus]);
 
   const onEndCall = () => {
-    stop();
+    stop?.();
     setShowOverlay(false);
   };
 

@@ -75,7 +75,7 @@ const Rufus = () => {
         )}
 
         {callStatus === CALL_STATUS.ACTIVE && (
-          <TouchableOpacity className="mb-2 self-center flex-row items-center gap-2" onPress={stop}>
+          <TouchableOpacity className="mb-2 self-center flex-row items-center gap-2" onPress={() => stop?.()}>
             <Ionicons name={'stop-circle-outline'} size={34} />
             <Text className=" text-lg">Stop Call</Text>
           </TouchableOpacity>
